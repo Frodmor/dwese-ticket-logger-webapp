@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head ('Ticket Logger - Insertar/Actualizar Comunidad Autónoma')"></head>
+<body>
+<!-- Incluir el fragmento del header -->
+<header th:replace="fragments/header :: header"></header>
+<main class="container mt-5">
+    <h1 th:text="${region.id == null ? 'Add New Region' : 'Edit Region'}"></h1>
+    <!-- Muestra un mensaje de error si hay algún problema -->
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}"></p>
+    </div>
+    <form th:action="${region.id == null} ? @{/regions/insert} :
+@{/regions/update}"
+          th:object="${region}" method="post" class="mt-4">
+        <input type="hidden" th:field="*{id}" />
+        <div class="mb-3">
+            <label for="code" class="form-label">Code:</label>
+            <input type="text" th:field="*{code}" id="code" class="form-control" />
+            <div th:if="${#fields.hasErrors('code')}" class="text-danger"
+                 th:errors="*{code}"></div>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" th:field="*{name}" id="name" class="form-control" />
+            <div th:if="${#fields.hasErrors('name')}" class="text-danger"
+                 th:errors="*{name}"></div>
+        </div>
+        <button type="submit" class="btn btn-primary" th:text="${region.id ==
+null ? 'Create' : 'Update'}"></button>
+    </form>
+    <!-- Volver a la lista de regiones -->
+    <a href="#" th:href="@{/regions}" class="btn btn-secondary mt-3">Back to
+        List</a>
+</main>
+<!-- Incluir el fragmento del footer -->
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
